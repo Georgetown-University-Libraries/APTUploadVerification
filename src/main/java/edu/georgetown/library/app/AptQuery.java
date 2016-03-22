@@ -1,15 +1,9 @@
 package edu.georgetown.library.app;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,24 +17,15 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.DefaultedHttpParams;
-import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import sun.misc.IOUtils;
-
 public class AptQuery {
     
-    
+    public static final String IPP = "100";
     
     public static void main(String[] args) {
-        System.out.println(AptItemAction.getAction("Ingest"));
-        System.out.println(AptItemAction.getAction("Fixity Check"));
-        
-        
         String prop = args.length > 0 ? args[0] : "api.prop";
         try {
             AptQuery apt = new AptQuery(prop);
@@ -77,7 +62,7 @@ public class AptQuery {
 
     }
     
-    public JSONArray doQuery(URIBuilder uribuild) throws IOException, URISyntaxException {
+    public JSONObject doQuery(URIBuilder uribuild) throws IOException, URISyntaxException {
         CloseableHttpClient httpclient = HttpClients.createDefault();
          try {
              HttpGet httpget = new HttpGet(uribuild.build());
@@ -110,9 +95,10 @@ public class AptQuery {
              JSONObject jobj = new JSONObject(responseBody);
              
              System.out.println("----------------------------------------");
+             System.out.println(responseBody);
+             System.out.println("----------------------------------------");
              System.out.println(jobj.get("count"));
-             JSONArray jarr = jobj.getJSONArray("results");
-             return jarr;
+             return jobj;
          } finally {
              httpclient.close();
          }
@@ -128,21 +114,23 @@ public class AptQuery {
             URIBuilder uribuild = new URIBuilder(path);
             //uribuild.addParameter("stage", "resolve");
             //uribuild.addParameter("stage", "cleanup");
-            uribuild.addParameter("action", "Ingest");
-            uribuild.addParameter("per_page", "200");
+            uribuild.addParameter("action", "Ingest");//Not yet honored
+            uribuild.addParameter("per_page", IPP);
             //uribuild.addParameter("name_exact", "srcorg.10822_761808.tar");
             
-            JSONArray jarr = doQuery(uribuild);
-            for(int i=0; i<jarr.length(); i++) {
-                JSONObject item = jarr.getJSONObject(i);
-                try {
-                    AptItem aptItem = new AptItem(item);
-                    addItem(aptItem);
-                    aptItem.print();
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }               
+            for(JSONObject jobj = doQuery(uribuild); ; jobj = doQuery(new URIBuilder(jobj.getString("next")))){
+                JSONArray jarr = jobj.getJSONArray("results");
+                for(int i=0; i<jarr.length(); i++) {
+                    JSONObject item = jarr.getJSONObject(i);
+                    try {
+                        AptItem aptItem = new AptItem(item);
+                        addItem(aptItem);
+                        aptItem.print();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }               
+                }                
+                if (jobj.isNull("next")) break;
             }
             System.out.println("----------------------------------------");
             for(AptItem aptItem: aptItems.values()) {
@@ -154,6 +142,7 @@ public class AptQuery {
             httpclient.close();
         }
     }
+    
 
     public void doQueryObjects() throws IOException, URISyntaxException {
         CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -165,19 +154,23 @@ public class AptQuery {
             //uribuild.addParameter("stage", "cleanup");
             //uribuild.addParameter("action", "ingest");
             //uribuild.addParameter("name_exact", "srcorg.10822_761721.tar");
+            uribuild.addParameter("per_page", IPP);
             
-            JSONArray jarr = doQuery(uribuild);
-            System.out.println(jarr.length());
-            for(int i=0; i<jarr.length(); i++) {
-                JSONObject item = jarr.getJSONObject(i);
-                try {
-                    AptObject aptObj = new AptObject(item);
-                    if (aptObj.state == AptObjectState.A) {
-                        aptObj.print();                        
+            for(JSONObject jobj = doQuery(uribuild); ; jobj = doQuery(new URIBuilder(jobj.getString("next")))){
+                JSONArray jarr = jobj.getJSONArray("results");
+                System.out.println(jarr.length());
+                for(int i=0; i<jarr.length(); i++) {
+                    JSONObject item = jarr.getJSONObject(i);
+                    try {
+                        AptObject aptObj = new AptObject(item);
+                        if (aptObj.state == AptObjectState.A) {
+                            aptObj.print();                        
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
+                if (jobj.isNull("next")) break;
             }
         } finally {
             httpclient.close();
@@ -236,7 +229,7 @@ public class AptQuery {
         String etag;
         String name;
         public AptItem(JSONObject obj) throws Exception {
-            this.identifier = obj.getString("object_identifier");
+            this.identifier = obj.optString("object_identifier","TBD");
             this.name = obj.getString("name");
             this.etag = obj.getString("etag");
 
