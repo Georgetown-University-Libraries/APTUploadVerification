@@ -7,6 +7,22 @@ Command Line Interface to the APTrust API: https://sites.google.com/a/aptrust.or
     user = <user id for APTrust API>
     key = <API key for APTrust API>
     
+## Build
+
+    mvn clean package
+    
+## Execution
+    >>>>java -jar target\APTUploadVerification-1.0.jar -h
+    AptQuery [-apiprop <prop file>] (-listAll|-listIngested|-bag <bagname>)
+    AptQuery -h
+      usage: AptQuery
+      -apiprop <arg>   API Config File (default: api.prop)
+      -bag <arg>       Show Status for Bag Name
+      -debug           Output debug messages
+      -h               Help Info
+      -listAll         List All Inventory Items (including failures)
+      -listIngested    List All Successfully Ingested Items
+
 # License information is contained below.
 
     ------------------------------------------------------------------------
