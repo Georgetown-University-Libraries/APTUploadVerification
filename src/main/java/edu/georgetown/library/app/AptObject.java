@@ -1,0 +1,43 @@
+package edu.georgetown.library.app;
+
+import org.json.JSONObject;
+
+public class AptObject {
+    public enum AptObjectState {A, D;}
+    public enum AptObjectAccess {consortia, restricted, institution;}
+
+    private String bagName;
+    private String etag = "NotYetProvided";
+    private AptObjectState state;
+    private AptObjectAccess access;
+    public AptObject(JSONObject obj) throws Exception{
+        this.bagName = obj.getString("bag_name");
+        try {
+            this.access = AptObjectAccess.valueOf(obj.getString("access"));
+            this.state = AptObjectState.valueOf(obj.getString("state"));
+        } catch (Exception e) {
+            throw new Exception("Cannot read return object " + obj.toString());
+        }
+    }
+
+    public String getName() {
+        return bagName;
+    }
+    
+    public boolean isIngested() {
+        return state == AptObjectState.A;
+    }
+    
+    public String toString() {
+        return String.format("%s\t%s\t%s\t%s", 
+            this.bagName, 
+            this.state,
+            this.access,
+            this.etag
+        );            
+    }
+
+    public void print() {
+        System.out.println(this.toString());            
+    }
+}
