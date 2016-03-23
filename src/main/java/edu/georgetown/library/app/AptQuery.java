@@ -80,7 +80,8 @@ public class AptQuery {
                 } else if (!item.isSuccessfullyIngested()) {
                     fail(String.format("Item (%s) is not ingested: %s", bag, item.toString()));
                 } else {
-                    System.out.println(String.format("Bag:%s; ETAG:%s; Created: %s; Updated: %s;", item.getName(), item.getEtag(), item.getCreatedStr(), item.getUpdatedStr()));
+                    //System.out.println(String.format("Bag:%s; ETAG:%s; Created: %s; Updated: %s;", item.getName(), item.getEtag(), item.getCreatedStr(), item.getUpdatedStr()));
+                    System.out.println(item.getEtag());
                 }
             }
         } catch (Exception e) {
