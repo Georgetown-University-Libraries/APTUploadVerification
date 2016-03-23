@@ -26,6 +26,9 @@ Command Line Interface to the APTrust API: https://sites.google.com/a/aptrust.or
       -listIngested    Returns a tab-separated list of All Successfully
                        Ingested Items
 
+# Note
+_Georgetown University Library IT has developed the following application for packaging APTrust bag files: https://github.com/Georgetown-University-Libraries/File-Analyzer/wiki/Bagit-automation-for-Academic-Preservation-Trust-(APTrust)_
+
 # License information is contained below.
 
     ------------------------------------------------------------------------
