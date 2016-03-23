@@ -76,6 +76,21 @@ public class AptItem implements Comparable<AptItem> {
     public String getName() {
         return this.name;
     }
+    
+    public Date getCreated() {
+        return this.created;
+    }
+
+    public Date getUpdated() {
+        return this.updated;
+    }
+    public String getCreatedStr() {
+        return printSDF.format(this.created);
+    }
+
+    public String getUpdatedStr() {
+        return printSDF.format(this.updated);
+    }
 
     public boolean isValidAction() {
         return (this.action == AptItemAction.Delete || this.action == AptItemAction.Ingest);

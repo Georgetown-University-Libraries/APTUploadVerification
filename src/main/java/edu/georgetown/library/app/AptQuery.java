@@ -32,7 +32,7 @@ public class AptQuery {
         OptionGroup optGrp = new OptionGroup();
         optGrp.addOption(new Option("listAll","Returns a tab-separated list of All Inventory Items (including failures)"));
         optGrp.addOption(new Option("listIngested","Returns a tab-separated list of All Successfully Ingested Items"));
-        optGrp.addOption(new Option("bag", true, "Returns the Ingest Stats for a Bag Name.  ETAG will be returned if successful."));
+        optGrp.addOption(new Option("bag", true, "Returns the Ingest Stats for a Bag Name.  Bag packaging/ETAG info will be returned if successful."));
         optGrp.setRequired(true);
         opts.addOptionGroup(optGrp);
         opts.addOption("h", false, "Help Info");
@@ -80,7 +80,7 @@ public class AptQuery {
                 } else if (!item.isSuccessfullyIngested()) {
                     fail(String.format("Item (%s) is not ingested: %s", bag, item.toString()));
                 } else {
-                    System.out.println(item.getEtag());
+                    System.out.println(String.format("Bag:%s; ETAG:%s; Created: %s; Updated: %s;", item.getName(), item.getEtag(), item.getCreatedStr(), item.getUpdatedStr()));
                 }
             }
         } catch (Exception e) {
