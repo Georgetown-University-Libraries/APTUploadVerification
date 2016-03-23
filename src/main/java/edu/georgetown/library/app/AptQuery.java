@@ -30,9 +30,9 @@ public class AptQuery {
         DefaultParser clParse = new DefaultParser();
         Options opts = new Options();
         OptionGroup optGrp = new OptionGroup();
-        optGrp.addOption(new Option("listAll","List All Inventory Items (including failures)"));
-        optGrp.addOption(new Option("listIngested","List All Successfully Ingested Items"));
-        optGrp.addOption(new Option("bag", true, "Show Status for Bag Name"));
+        optGrp.addOption(new Option("listAll","Returns a tab-separated list of All Inventory Items (including failures)"));
+        optGrp.addOption(new Option("listIngested","Returns a tab-separated list of All Successfully Ingested Items"));
+        optGrp.addOption(new Option("bag", true, "Returns the Ingest Stats for a Bag Name.  ETAG will be returned if successful."));
         optGrp.setRequired(true);
         opts.addOptionGroup(optGrp);
         opts.addOption("h", false, "Help Info");
