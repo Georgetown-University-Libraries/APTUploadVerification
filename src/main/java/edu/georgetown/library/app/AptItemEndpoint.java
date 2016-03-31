@@ -1,6 +1,8 @@
 package edu.georgetown.library.app;
 
 import java.net.URISyntaxException;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.json.JSONObject;
@@ -49,23 +51,29 @@ public class AptItemEndpoint extends AptEndpoint {
 
     public static AptItemEndpoint createInventoryListing(AptApiSession session) throws URISyntaxException {
         AptItemEndpoint itemEndpoint = new AptItemEndpoint(session);
-        itemEndpoint.uriBuilder.addParameter("action", AptItem.AptItemAction.Ingest.name().toLowerCase());//Not yet honored
+        itemEndpoint.uriBuilder.addParameter("action", AptItem.AptItemAction.Ingest.name().toLowerCase());
         itemEndpoint.uriBuilder.addParameter("per_page", IPP);
         return itemEndpoint;
     }
 
     public static AptItemEndpoint createSuccessfulInventoryListing(AptApiSession session) throws URISyntaxException {
         AptItemEndpoint itemEndpoint = new AptItemEndpoint(session);
-        itemEndpoint.uriBuilder.addParameter("action", AptItem.AptItemAction.Ingest.name().toLowerCase());//Not yet honored
-        itemEndpoint.uriBuilder.addParameter("status", AptItem.AptItemStatus.Success.name().toLowerCase());//Not yet honored
+        itemEndpoint.uriBuilder.addParameter("action", AptItem.AptItemAction.Ingest.name().toLowerCase());
+        itemEndpoint.uriBuilder.addParameter("status", AptItem.AptItemStatus.Success.name().toLowerCase());
         itemEndpoint.uriBuilder.addParameter("per_page", IPP);
         return itemEndpoint;
     }
 
     public static AptItemEndpoint createBagValidator(AptApiSession session, String bagName) throws URISyntaxException {
         AptItemEndpoint itemEndpoint = new AptItemEndpoint(session);
+        //itemEndpoint.uriBuilder.addParameter("action", AptItem.AptItemAction.Ingest.name().toLowerCase());
         itemEndpoint.uriBuilder.addParameter("name_exact", bagName);
         return itemEndpoint;
+    }
+
+    public void setSince(String since) throws ParseException {
+        Date date = AptItem.paramSDF.parse(since);
+        this.uriBuilder.addParameter("updated_since", AptItem.parserSDF.format(date));
     }
     
     public void refineResults() {

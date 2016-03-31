@@ -10,6 +10,7 @@ public class AptItem implements Comparable<AptItem> {
     public enum AptItemStatus {Pending,Started,Success,Failed,Cancelled;}
     public static SimpleDateFormat parserSDF=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     public static SimpleDateFormat printSDF=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    public static SimpleDateFormat paramSDF=new SimpleDateFormat("yyyy-MM-dd");
     public enum AptItemAction {Ingest, FixityCheck, Restore, Delete, DPN;
         
         public static AptItemAction getAction(String s) {

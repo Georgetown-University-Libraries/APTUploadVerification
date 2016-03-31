@@ -2,6 +2,7 @@ package edu.georgetown.library.app;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -29,7 +30,9 @@ public abstract class AptEndpoint {
     public abstract void processResult(JSONObject item) throws Exception;
     
     public URIBuilder getEndpointUriBuilder() throws URISyntaxException {
-        return new URIBuilder(session.getEndpointUrl(getEndpointName()));
+        URIBuilder ub = new URIBuilder(session.getEndpointUrl(getEndpointName()));
+        //ub.setCharset(Charset.defaultCharset());
+        return ub;
     }
     
     public JSONObject runQuery() throws IOException, URISyntaxException {

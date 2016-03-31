@@ -22,14 +22,23 @@ public class AptQuery {
     }
 
     public static void usage() {
-        System.out.println(String.format("%s [-apiprop <prop file>] (-listAll|-listIngested|-bag <bagname>)", CMD));
-        System.out.println(String.format("%s -h", CMD));
+        System.out.println("Use Object API (recommended)");
+        System.out.println(String.format("  %s -obj [-apiprop <prop file>] (-listAll|-bag <bagname>)", CMD));
+        System.out.println("Use Item API");
+        System.out.println(String.format("  %s -item [-apiprop <prop file>] [-since YYYY-MM-DD] (-listAll|-listIngested|-bag <bagname>)", CMD));
+        System.out.println("Get usage Info");
+        System.out.println(String.format("  %s -h", CMD));
     }
     
     public static CommandLine parseAipCommandLine(String main, String[] args) {
         DefaultParser clParse = new DefaultParser();
         Options opts = new Options();
         OptionGroup optGrp = new OptionGroup();
+        optGrp.addOption(new Option("obj","Use Objects Endpoint"));
+        optGrp.addOption(new Option("item","Use Items Enpoint"));
+        optGrp.setRequired(true);
+        opts.addOptionGroup(optGrp);
+        optGrp = new OptionGroup();
         optGrp.addOption(new Option("listAll","Returns a tab-separated list of All Inventory Items (including failures)"));
         optGrp.addOption(new Option("listIngested","Returns a tab-separated list of All Successfully Ingested Items"));
         optGrp.addOption(new Option("bag", true, "Returns the Ingest Stats for a Bag Name.  Bag packaging/ETAG info will be returned if successful."));
@@ -37,6 +46,7 @@ public class AptQuery {
         opts.addOptionGroup(optGrp);
         opts.addOption("h", false, "Help Info");
         opts.addOption("apiprop", true, "API Config File (default: api.prop)");
+        opts.addOption("since", true, "Updated since (YYYY-MM-DD)");
         opts.addOption("debug", "Output debug messages");
         
         HelpFormatter formatter = new HelpFormatter();
@@ -56,34 +66,63 @@ public class AptQuery {
         return null;
     }
 
+    public static void refineOptions(AptItemEndpoint endpoint, CommandLine cmdLine) throws java.text.ParseException {
+        if (cmdLine.hasOption("since")) {
+            endpoint.setSince(cmdLine.getOptionValue("since"));
+        }        
+    }
+    
     public static final int queryCommand(CommandLine cmdLine) throws Exception {
         String apiprop = cmdLine.getOptionValue("apiprop", "api.prop");
         try {
             AptApiSession apt = new AptApiSession(apiprop);
             apt.setDebug(cmdLine.hasOption("debug"));
             
-            if (cmdLine.hasOption("listAll")) {
-                AptItemEndpoint itemEndpoint = AptItemEndpoint.createInventoryListing(apt);
-                itemEndpoint.iterateQuery();
-                itemEndpoint.refineResults();                
-            } else if (cmdLine.hasOption("listIngested")) {
-                AptItemEndpoint itemEndpoint = AptItemEndpoint.createSuccessfulInventoryListing(apt);
-                itemEndpoint.iterateQuery();
-                itemEndpoint.refineResults();                                
-            } else if (cmdLine.hasOption("bag")) {
-                String bag = cmdLine.getOptionValue("bag");
-                AptItemEndpoint itemEndpoint = AptItemEndpoint.createBagValidator(apt, bag);
-                itemEndpoint.iterateQuery();
-                AptItem item = itemEndpoint.get();
-                if (item == null) {
-                    fail(String.format("Item (%s) not found", bag));
-                } else if (!item.isSuccessfullyIngested()) {
-                    fail(String.format("Item (%s) is not ingested: %s", bag, item.toString()));
-                } else {
-                    //System.out.println(String.format("Bag:%s; ETAG:%s; Created: %s; Updated: %s;", item.getName(), item.getEtag(), item.getCreatedStr(), item.getUpdatedStr()));
-                    System.out.println(item.getEtag());
+            if (cmdLine.hasOption("obj")){
+                if (cmdLine.hasOption("listAll")) {
+                    AptObjectEndpoint objEndpoint = AptObjectEndpoint.createInventoryListing(apt);
+                    objEndpoint.iterateQuery();
+                    objEndpoint.refineResults();
+                } else if (cmdLine.hasOption("bag")) {
+                    String bag = cmdLine.getOptionValue("bag");
+                    AptObjectEndpoint objEndpoint = AptObjectEndpoint.createBagValidator(apt, bag);
+                    objEndpoint.iterateQuery();
+                    AptObject obj = objEndpoint.get();
+                    if (obj == null) {
+                        fail(String.format("Item (%s) not found", bag));
+                    } else if (!obj.isIngested()) {
+                        fail(String.format("Item (%s) is not ingested: %s", bag, obj.toString()));
+                    } else {
+                        System.out.println(obj.getEtag());
+                    }                
+                }                
+            } else if(cmdLine.hasOption("item")){
+                if (cmdLine.hasOption("listAll")) {
+                    AptItemEndpoint itemEndpoint = AptItemEndpoint.createInventoryListing(apt);
+                    itemEndpoint.iterateQuery();
+                    itemEndpoint.refineResults();                
+                } else if (cmdLine.hasOption("listIngested")) {
+                    AptItemEndpoint itemEndpoint = AptItemEndpoint.createSuccessfulInventoryListing(apt);
+                    itemEndpoint.iterateQuery();
+                    itemEndpoint.refineResults();                                
+                } else if (cmdLine.hasOption("bag")) {
+                    String bag = cmdLine.getOptionValue("bag");
+                    AptItemEndpoint itemEndpoint = AptItemEndpoint.createBagValidator(apt, bag);
+                    refineOptions(itemEndpoint, cmdLine);
+                    itemEndpoint.iterateQuery();
+                    AptItem item = itemEndpoint.get();
+                    if (item == null) {
+                        fail(String.format("Item (%s) not found", bag));
+                    } else if (!item.isSuccessfullyIngested()) {
+                        fail(String.format("Item (%s) is not ingested: %s", bag, item.toString()));
+                    } else {
+                        //System.out.println(String.format("Bag:%s; ETAG:%s; Created: %s; Updated: %s;", item.getName(), item.getEtag(), item.getCreatedStr(), item.getUpdatedStr()));
+                        System.out.println(item.getEtag());
+                    }
                 }
+                
             }
+            
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -20,6 +20,13 @@ public class AptObjectEndpoint extends AptEndpoint {
         return aptObjects.get(name);
     }
 
+    public AptObject get() {
+        if (aptObjects.size() == 1) {
+            return aptObjects.values().iterator().next();
+        }
+        return null;
+    }
+
     @Override
     public String getEndpointName() {
         return "objects";
