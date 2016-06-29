@@ -2,7 +2,6 @@ package edu.georgetown.library.app;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.charset.Charset;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

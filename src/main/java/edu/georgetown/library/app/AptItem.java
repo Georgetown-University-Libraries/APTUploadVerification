@@ -69,6 +69,9 @@ public class AptItem implements Comparable<AptItem> {
     public boolean isSuccessfullyIngested() {
         return this.status.equals(AptItemStatus.Success) && this.action.equals(AptItemAction.Ingest);
     }
+    public boolean isFailedIngest() {
+        return this.status.equals(AptItemStatus.Failed) && this.action.equals(AptItemAction.Ingest);
+    }
     
     public String getEtag() {
         return this.etag;

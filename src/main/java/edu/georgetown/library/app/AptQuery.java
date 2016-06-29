@@ -113,11 +113,12 @@ public class AptQuery {
                     AptItem item = itemEndpoint.get();
                     if (item == null) {
                         fail(String.format("Item (%s) not found", bag));
-                    } else if (!item.isSuccessfullyIngested()) {
-                        fail(String.format("Item (%s) is not ingested: %s", bag, item.toString()));
-                    } else {
-                        //System.out.println(String.format("Bag:%s; ETAG:%s; Created: %s; Updated: %s;", item.getName(), item.getEtag(), item.getCreatedStr(), item.getUpdatedStr()));
+                    } else if (item.isSuccessfullyIngested()) {
                         System.out.println(item.getEtag());
+                    } else if (item.isFailedIngest()) {
+                        System.out.println(String.format("INGEST-FAIL:%s",item.getEtag()));
+                    } else {
+                        fail(String.format("Item (%s) is not ingested: %s", bag, item.toString()));
                     }
                 }
                 
