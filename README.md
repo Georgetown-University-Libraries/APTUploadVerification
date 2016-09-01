@@ -28,3 +28,7 @@ Command Line Interface to the APTrust API: https://sites.google.com/a/aptrust.or
 
 # Note
 _Georgetown University Library IT has developed the following application for packaging APTrust bag files: https://github.com/Georgetown-University-Libraries/File-Analyzer/wiki/Bagit-automation-for-Academic-Preservation-Trust-(APTrust)_
+
+***
+[![Georgetown University Library IT Code Repositories](https://raw.githubusercontent.com/Georgetown-University-Libraries/georgetown-university-libraries.github.io/master/LIT-logo-small.png)Georgetown University Library IT Code Repositories](http://georgetown-university-libraries.github.io/)
+
