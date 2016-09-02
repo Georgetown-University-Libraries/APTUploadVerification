@@ -5,6 +5,7 @@ Command Line Interface to the APTrust API: https://sites.google.com/a/aptrust.or
 
 ## Demonstration Video
 This video demonstrates the workflows developed by the Georgetown University Library to export content to Academic Preservation Trust.
+
 [![Demonstration Video](https://i.ytimg.com/vi/SiMlY0g9cn0/hqdefault.jpg)](https://youtu.be/SiMlY0g9cn0)
 
 ## Configuration File Format
