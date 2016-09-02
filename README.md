@@ -3,6 +3,9 @@ Command Line Interface to the APTrust API: https://sites.google.com/a/aptrust.or
 
 ![image](https://cloud.githubusercontent.com/assets/1111057/18217851/f5cc8a8c-7113-11e6-81ae-1658c270abbf.png)
 
+## Demonstration Video
+[![Demonstration Video](https://youtu.be/SiMlY0g9cn0/1.jpg)](https://youtu.be/SiMlY0g9cn0)
+
 ## Configuration File Format
 
     url = http://test.aptrust.org/member-api/v1 
