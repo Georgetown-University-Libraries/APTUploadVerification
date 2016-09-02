@@ -1,6 +1,8 @@
 # APTUploadVerification
 Command Line Interface to the APTrust API: https://sites.google.com/a/aptrust.org/member-wiki/member-api/api-basics
 
+![image](https://cloud.githubusercontent.com/assets/1111057/18217851/f5cc8a8c-7113-11e6-81ae-1658c270abbf.png)
+
 ## Configuration File Format
 
     url = http://test.aptrust.org/member-api/v1 
