@@ -34,7 +34,7 @@ public class AptItem implements Comparable<AptItem> {
     public AptItem(JSONObject obj) throws Exception {
         this.identifier = obj.optString("object_identifier","TBD");
         this.name = obj.getString("name");
-        this.etag = obj.has("etag") ? obj.getString("etag") : "";
+        this.etag = obj.isNull("etag") ? "" : obj.getString("etag");
 
         try {
             this.action = AptItemAction.getAction(obj.getString("action"));
