@@ -45,8 +45,8 @@ public class AptApiSession {
     public void addHeaders(HttpGet httpget) {
         httpget.addHeader("Content-Type", "application/json");
         httpget.addHeader("Accept", "application/json");
-        httpget.addHeader("X-Fluctus-API-User", user);
-        httpget.addHeader("X-Fluctus-API-Key", apiKey);        
+        httpget.addHeader("X-Pharos-API-User", user);
+        httpget.addHeader("X-Pharos-API-Key", apiKey);        
     }
     
     public String getEndpointUrl(String endpoint) {
