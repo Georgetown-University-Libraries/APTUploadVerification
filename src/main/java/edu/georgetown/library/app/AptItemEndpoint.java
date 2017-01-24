@@ -90,4 +90,15 @@ public class AptItemEndpoint extends AptEndpoint {
             }
         }
     }
+
+    public void refineInventoryResults() {
+        if (session.isDebug()) {
+            System.out.println("----------------------------------------");            
+        }
+        for(AptItem aptItem: aptItems.values()) {
+            if (aptItem.isIngestAction()) {
+                aptItem.printInventory();                    
+            }
+        }
+    }
 }
