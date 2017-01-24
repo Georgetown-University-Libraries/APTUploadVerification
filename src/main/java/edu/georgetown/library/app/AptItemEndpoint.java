@@ -58,8 +58,13 @@ public class AptItemEndpoint extends AptEndpoint {
 
     public static AptItemEndpoint createSuccessfulInventoryListing(AptApiSession session) throws URISyntaxException {
         AptItemEndpoint itemEndpoint = new AptItemEndpoint(session);
-        itemEndpoint.uriBuilder.addParameter("action", AptItem.AptItemAction.Ingest.name().toLowerCase());
-        itemEndpoint.uriBuilder.addParameter("status", AptItem.AptItemStatus.Success.name().toLowerCase());
+        if (session.isV1()) {
+            itemEndpoint.uriBuilder.addParameter("action", AptItem.AptItemAction.Ingest.name().toLowerCase());            
+            itemEndpoint.uriBuilder.addParameter("status", AptItem.AptItemStatus.Success.name().toLowerCase());
+        } else {
+            itemEndpoint.uriBuilder.addParameter("item_action", AptItem.AptItemAction.Ingest.name());                        
+            itemEndpoint.uriBuilder.addParameter("status", AptItem.AptItemStatus.Success.name());
+        }
         itemEndpoint.uriBuilder.addParameter("per_page", IPP);
         return itemEndpoint;
     }
