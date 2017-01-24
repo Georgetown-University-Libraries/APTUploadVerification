@@ -21,7 +21,6 @@ public class AptItem implements Comparable<AptItem> {
         }
     } 
 
-    @SuppressWarnings("unused")
     private String identifier;
     private Date created;
     private Date updated;
@@ -62,7 +61,20 @@ public class AptItem implements Comparable<AptItem> {
     public void print() {
         System.out.println(this.toString());
     }
-    
+ 
+    public void printInventory() {
+        String s ="n/a";
+        System.out.println(
+            String.format("%s\t%s\t%s\t%s\t%s", 
+                this.identifier, 
+                this.identifier, 
+                s,
+                s,
+                this.etag
+            )
+        );            
+    }
+ 
     public boolean isIngestAction() {
         return this.action.equals(AptItemAction.Ingest);
     }
