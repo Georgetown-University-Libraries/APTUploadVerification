@@ -67,7 +67,11 @@ public class AptItemEndpoint extends AptEndpoint {
     public static AptItemEndpoint createBagValidator(AptApiSession session, String bagName) throws URISyntaxException {
         AptItemEndpoint itemEndpoint = new AptItemEndpoint(session);
         //itemEndpoint.uriBuilder.addParameter("action", AptItem.AptItemAction.Ingest.name().toLowerCase());
-        itemEndpoint.uriBuilder.addParameter("name_exact", bagName);
+        if (session.isV1()) {
+            itemEndpoint.uriBuilder.addParameter("name_exact", bagName);            
+        } else {
+            itemEndpoint.uriBuilder.addParameter("name", bagName);
+        }
         return itemEndpoint;
     }
 

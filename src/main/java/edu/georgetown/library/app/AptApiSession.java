@@ -34,6 +34,13 @@ public class AptApiSession {
 
     }
 
+    public boolean isV1() {
+        return root.contains("/member-api/v1");
+    }
+    public boolean isV2() {
+        return root.contains("/member-api/v2");
+    }
+
     public void setDebug(boolean debug) {
         this.debug = debug;
     }
@@ -45,8 +52,13 @@ public class AptApiSession {
     public void addHeaders(HttpGet httpget) {
         httpget.addHeader("Content-Type", "application/json");
         httpget.addHeader("Accept", "application/json");
-        httpget.addHeader("X-Pharos-API-User", user);
-        httpget.addHeader("X-Pharos-API-Key", apiKey);        
+        if (isV1()) {
+            httpget.addHeader("X-Fluctus-API-User", user);
+            httpget.addHeader("X-Fluctus-API-Key", apiKey);                    
+        } else {
+            httpget.addHeader("X-Pharos-API-User", user);
+            httpget.addHeader("X-Pharos-API-Key", apiKey);                                
+        }
     }
     
     public String getEndpointUrl(String endpoint) {
