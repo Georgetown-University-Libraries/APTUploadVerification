@@ -49,7 +49,11 @@ public class AptObjectEndpoint extends AptEndpoint {
 
     public static AptObjectEndpoint createBagValidator(AptApiSession session, String bagName) throws URISyntaxException {
         AptObjectEndpoint objEndpoint = new AptObjectEndpoint(session);
-        objEndpoint.uriBuilder.addParameter("name_exact", bagName);
+        if (session.isV1()) {
+            objEndpoint.uriBuilder.addParameter("name_exact", bagName);            
+        } else {
+            objEndpoint.uriBuilder.addParameter("bag_name", bagName);
+        }
         return objEndpoint;
     }
     

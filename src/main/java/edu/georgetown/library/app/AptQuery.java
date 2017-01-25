@@ -100,11 +100,11 @@ public class AptQuery {
                 if (cmdLine.hasOption("listAll")) {
                     AptItemEndpoint itemEndpoint = AptItemEndpoint.createInventoryListing(apt);
                     itemEndpoint.iterateQuery();
-                    itemEndpoint.refineResults();                
+                    itemEndpoint.refineInventoryResults();                
                 } else if (cmdLine.hasOption("listIngested")) {
                     AptItemEndpoint itemEndpoint = AptItemEndpoint.createSuccessfulInventoryListing(apt);
                     itemEndpoint.iterateQuery();
-                    itemEndpoint.refineResults();                                
+                    itemEndpoint.refineInventoryResults();                                
                 } else if (cmdLine.hasOption("bag")) {
                     String bag = cmdLine.getOptionValue("bag");
                     AptItemEndpoint itemEndpoint = AptItemEndpoint.createBagValidator(apt, bag);

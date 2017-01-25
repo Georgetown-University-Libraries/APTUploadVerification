@@ -58,8 +58,13 @@ public class AptItemEndpoint extends AptEndpoint {
 
     public static AptItemEndpoint createSuccessfulInventoryListing(AptApiSession session) throws URISyntaxException {
         AptItemEndpoint itemEndpoint = new AptItemEndpoint(session);
-        itemEndpoint.uriBuilder.addParameter("action", AptItem.AptItemAction.Ingest.name().toLowerCase());
-        itemEndpoint.uriBuilder.addParameter("status", AptItem.AptItemStatus.Success.name().toLowerCase());
+        if (session.isV1()) {
+            itemEndpoint.uriBuilder.addParameter("action", AptItem.AptItemAction.Ingest.name().toLowerCase());            
+            itemEndpoint.uriBuilder.addParameter("status", AptItem.AptItemStatus.Success.name().toLowerCase());
+        } else {
+            itemEndpoint.uriBuilder.addParameter("item_action", AptItem.AptItemAction.Ingest.name());                        
+            itemEndpoint.uriBuilder.addParameter("status", AptItem.AptItemStatus.Success.name());
+        }
         itemEndpoint.uriBuilder.addParameter("per_page", IPP);
         return itemEndpoint;
     }
@@ -67,7 +72,11 @@ public class AptItemEndpoint extends AptEndpoint {
     public static AptItemEndpoint createBagValidator(AptApiSession session, String bagName) throws URISyntaxException {
         AptItemEndpoint itemEndpoint = new AptItemEndpoint(session);
         //itemEndpoint.uriBuilder.addParameter("action", AptItem.AptItemAction.Ingest.name().toLowerCase());
-        itemEndpoint.uriBuilder.addParameter("name_exact", bagName);
+        if (session.isV1()) {
+            itemEndpoint.uriBuilder.addParameter("name_exact", bagName);            
+        } else {
+            itemEndpoint.uriBuilder.addParameter("name", bagName);
+        }
         return itemEndpoint;
     }
 
@@ -83,6 +92,17 @@ public class AptItemEndpoint extends AptEndpoint {
         for(AptItem aptItem: aptItems.values()) {
             if (aptItem.isIngestAction()) {
                 aptItem.print();                    
+            }
+        }
+    }
+
+    public void refineInventoryResults() {
+        if (session.isDebug()) {
+            System.out.println("----------------------------------------");            
+        }
+        for(AptItem aptItem: aptItems.values()) {
+            if (aptItem.isIngestAction()) {
+                aptItem.printInventory();                    
             }
         }
     }

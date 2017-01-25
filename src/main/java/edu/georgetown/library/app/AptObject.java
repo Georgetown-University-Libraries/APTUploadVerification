@@ -14,7 +14,7 @@ public class AptObject {
     public AptObject(JSONObject obj) throws Exception{
         this.identifier = obj.getString("identifier");
         this.bagName = obj.getString("bag_name");
-        this.etag = obj.getString("etag");
+        this.etag = obj.isNull("etag") ? "" : obj.getString("etag");
         try {
             this.access = AptObjectAccess.valueOf(obj.getString("access"));
             this.state = AptObjectState.valueOf(obj.getString("state"));
