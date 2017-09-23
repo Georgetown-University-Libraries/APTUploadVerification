@@ -8,6 +8,9 @@ This video demonstrates the workflows developed by the Georgetown University Lib
 
 [![Demonstration Video](https://i.ytimg.com/vi/SiMlY0g9cn0/hqdefault.jpg)](https://youtu.be/SiMlY0g9cn0)
 
+## Overview Presentation
+[APT Georgetown Bagging Strategy](https://docs.google.com/presentation/d/e/2PACX-1vQa6qObo617BtslVo6AxutjZ6duHyp0UluFuURw5_sHIHTDP54KH1t8nCcjayn9CAXRNyj-TkwE5Xc5/pub?start=false&loop=false&delayms=3000)
+
 ## Configuration File Format
 
     url = http://test.aptrust.org/member-api/v1 
