@@ -10,8 +10,8 @@ The tools described in this presentation were developed in 2016.  Using these to
 * Terry Brady, Application Programmer Analyst, Georgetown University Library
 * Suzanne Chase, Head, Digital Services Unit, Georgetown University Library
 
-## Webinar Recording: Click Image Below to Play
-[![Webinar Recording](https://img.youtube.com/vi/EnXVI9rCxdM/0.jpg)](https://www.youtube.com/watch?v=EnXVI9rCxdM&t=18s)
+## Webinar Recording
+[![Webinar Recording](bagWebinar.jpg)](https://www.youtube.com/watch?v=EnXVI9rCxdM&t=18s)
 
 ## Tools
 The Georgetown University Library developed these tools to support our APTrust Preservation Workflows.  The following code is available for use by other institutions.
