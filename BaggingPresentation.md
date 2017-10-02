@@ -11,4 +11,4 @@ The tools described in this presentation were developed in 2016.  Using these to
 * Suzanne Chase, Head, Digital Services Unit, Georgetown Unviersity Library
 
 ## Demonstration Video: Click Image Below to Play
-[![Demonstration Video](https://img.youtube.com/vi/EnXVI9rCxdM/0.jpg)](https://www.youtube.com/watch?v=EnXVI9rCxdM&t=10s)
+[![Demonstration Video](https://img.youtube.com/vi/EnXVI9rCxdM/0.jpg)](https://www.youtube.com/watch?v=EnXVI9rCxdM&t=18s)
