@@ -12,3 +12,9 @@ The tools described in this presentation were developed in 2016.  Using these to
 
 ## Webinar Recording: Click Image Below to Play
 [![Webinar Recording](https://img.youtube.com/vi/EnXVI9rCxdM/0.jpg)](https://www.youtube.com/watch?v=EnXVI9rCxdM&t=18s)
+
+## Tools
+The Georgetown University Library developed these tools to support our APTrust Preservation Workflows.  The following code is available for use by other institutions.
+* [File Analyzer - Create APTrust Bag Files](https://github.com/Georgetown-University-Libraries/File-Analyzer/wiki/Bagit-automation-for-Academic-Preservation-Trust-(APTrust))
+* [APTrust Upload Verification Tool](https://github.com/Georgetown-University-Libraries/APTUploadVerification)
+* [ArchivesSpace Object Export Tool](https://github.com/Georgetown-University-Libraries/ASObjectExport)
