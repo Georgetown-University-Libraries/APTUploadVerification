@@ -3,15 +3,11 @@ Command Line Interface to the APTrust API: https://sites.google.com/a/aptrust.or
 
 ![image](https://cloud.githubusercontent.com/assets/1111057/18217851/f5cc8a8c-7113-11e6-81ae-1658c270abbf.png)
 
-## Demonstration Video
-This video demonstrates the workflows developed by the Georgetown University Library to export content to Academic Preservation Trust.
-
-[![Demonstration Video](https://i.ytimg.com/vi/SiMlY0g9cn0/hqdefault.jpg)](https://youtu.be/SiMlY0g9cn0)
 
 ## Overview Presentation
-[APT Georgetown Bagging Strategy](https://docs.google.com/presentation/d/e/2PACX-1vQa6qObo617BtslVo6AxutjZ6duHyp0UluFuURw5_sHIHTDP54KH1t8nCcjayn9CAXRNyj-TkwE5Xc5/pub?start=false&loop=false&delayms=3000)
+[Georgetown's Preservation Workflow Bagging Strategy for Academic Preservation Trust](https://docs.google.com/presentation/d/e/2PACX-1vQa6qObo617BtslVo6AxutjZ6duHyp0UluFuURw5_sHIHTDP54KH1t8nCcjayn9CAXRNyj-TkwE5Xc5/pub?start=false&loop=false&delayms=3000)
 
-[Bagging Strategy Webinar](https://www.youtube.com/watch?v=EnXVI9rCxdM&t=18s)
+[Bagging Strategy Webinar Recording](https://www.youtube.com/watch?v=EnXVI9rCxdM&t=18s)
 
 ## Configuration File Format
 
