@@ -79,7 +79,7 @@ public class AptQuery {
             apt.setDebug(cmdLine.hasOption("debug"));
 
             if (cmdLine.hasOption("obj")){
-                //NOTE APT Partner Tools have replaced the Upload Verification process.
+                //APT Partner Tools have replaced the Upload Verification process.
                 //Georgetown only uses this code to perform an inventory listing: -listAll
                 if (cmdLine.hasOption("listAll")) {
                     AptObjectEndpoint objEndpoint = AptObjectEndpoint.createInventoryListing(apt);
@@ -99,7 +99,7 @@ public class AptQuery {
                     }
                 }
             } else if(cmdLine.hasOption("item")){
-              //NOTE APT Partner Tools have replaced the Upload Verification process.
+              //APT Partner Tools have replaced the Upload Verification process.
               //Georgetown only uses this code to perform an inventory listing: -listAll
                 if (cmdLine.hasOption("listAll")) {
                     AptItemEndpoint itemEndpoint = AptItemEndpoint.createInventoryListing(apt);
