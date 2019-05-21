@@ -9,7 +9,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 public class AptQuery {
-    
+
     public static final String CMD = "AptQuery";
     public static final void main(String[] args) {
         CommandLine cmdLine = parseAipCommandLine(CMD, args);
@@ -29,7 +29,7 @@ public class AptQuery {
         System.out.println("Get usage Info");
         System.out.println(String.format("  %s -h", CMD));
     }
-    
+
     public static CommandLine parseAipCommandLine(String main, String[] args) {
         DefaultParser clParse = new DefaultParser();
         Options opts = new Options();
@@ -48,7 +48,7 @@ public class AptQuery {
         opts.addOption("apiprop", true, "API Config File (default: api.prop)");
         opts.addOption("since", true, "Updated since (YYYY-MM-DD)");
         opts.addOption("debug", "Output debug messages");
-        
+
         HelpFormatter formatter = new HelpFormatter();
         try {
             CommandLine cmdLine = clParse.parse(opts, args);
@@ -69,16 +69,18 @@ public class AptQuery {
     public static void refineOptions(AptItemEndpoint endpoint, CommandLine cmdLine) throws java.text.ParseException {
         if (cmdLine.hasOption("since")) {
             endpoint.setSince(cmdLine.getOptionValue("since"));
-        }        
+        }
     }
-    
+
     public static final int queryCommand(CommandLine cmdLine) throws Exception {
         String apiprop = cmdLine.getOptionValue("apiprop", "api.prop");
         try {
             AptApiSession apt = new AptApiSession(apiprop);
             apt.setDebug(cmdLine.hasOption("debug"));
-            
+
             if (cmdLine.hasOption("obj")){
+                //NOTE APT Partner Tools have replaced the Upload Verification process.
+                //Georgetown only uses this code to perform an inventory listing: -listAll
                 if (cmdLine.hasOption("listAll")) {
                     AptObjectEndpoint objEndpoint = AptObjectEndpoint.createInventoryListing(apt);
                     objEndpoint.iterateQuery();
@@ -94,17 +96,19 @@ public class AptQuery {
                         fail(String.format("Item (%s) is not ingested: %s", bag, obj.toString()));
                     } else {
                         System.out.println(obj.getEtag());
-                    }                
-                }                
+                    }
+                }
             } else if(cmdLine.hasOption("item")){
+              //NOTE APT Partner Tools have replaced the Upload Verification process.
+              //Georgetown only uses this code to perform an inventory listing: -listAll
                 if (cmdLine.hasOption("listAll")) {
                     AptItemEndpoint itemEndpoint = AptItemEndpoint.createInventoryListing(apt);
                     itemEndpoint.iterateQuery();
-                    itemEndpoint.refineInventoryResults();                
+                    itemEndpoint.refineInventoryResults();
                 } else if (cmdLine.hasOption("listIngested")) {
                     AptItemEndpoint itemEndpoint = AptItemEndpoint.createSuccessfulInventoryListing(apt);
                     itemEndpoint.iterateQuery();
-                    itemEndpoint.refineInventoryResults();                                
+                    itemEndpoint.refineInventoryResults();
                 } else if (cmdLine.hasOption("bag")) {
                     String bag = cmdLine.getOptionValue("bag");
                     AptItemEndpoint itemEndpoint = AptItemEndpoint.createBagValidator(apt, bag);
@@ -121,18 +125,18 @@ public class AptQuery {
                         fail(String.format("Item (%s) is not ingested: %s", bag, item.toString()));
                     }
                 }
-                
+
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;
-    }    
+    }
     public static final int FAIL = 100;
     public static final void fail(String message) {
         System.err.println(message);
         System.exit(FAIL);
     }
-    
+
 }
